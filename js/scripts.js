@@ -3,6 +3,7 @@
   // On document ready
   $.addEventListener( "DOMContentLoaded", function( event ) {
     let products = {};
+    let mapped_products = {}
     let query_vars
 
     initialize();
@@ -13,6 +14,7 @@
         products = await get_products();
 
         product_listings();
+        quote();
       } catch ( error ) {
         if ( error.name === "SyntaxError" ) {
           console.log("Syntax error on the JSON file.");
@@ -25,7 +27,9 @@
     }
 
     function product_listings() {
-      let category;
+      let category = null;
+      let body_obj = $.querySelector("body");
+      let body_category_class;
       
       // Exit early if not a product listing page.
       if ( $.querySelector(".product-page") === null ) {
@@ -39,6 +43,14 @@
       } else if ( "songs" in query_vars ) {
         category = "songs";
       }
+
+      if ( category === null ) {
+        body_category_class = `products-all`;
+      } else {
+        body_category_class = `products-${category}`;
+      }
+
+      body_obj.classList.add( body_category_class );
 
       render_products( category );
       initialize_catalog_listeners();
@@ -74,28 +86,33 @@
 
     function render_products() {
       let category = "all";
+      let category_title = "All Products";
       let products_list = $.querySelector(".products");
 
       // Set category
       if ( arguments.length > 0 ) {
         if ( arguments[0] == "songs" ) {
           category = "Song";
+          category_title = "Songs";
         } else if ( arguments[0] == "movies" ) {
           category = "Movie";
+          category_title = "Movies";
         } else {
           // Catch-all condition should there be unexpected arguments.
           category = "all";
         }
       }
       
-      let new_release;
+      $.querySelector(".category-title").innerHTML = category_title;
 
+      
       for ( let product in products ) {
         if ( category !== "all" && products[product].productType !== category ) {
           continue; // Skip this product if not of category except if we're loading all products
         }
+        
+        let new_release = false;
 
-        new_release = false;
         if ( products[product].newRelease == true ) {
           new_release = true;
         }
@@ -107,13 +124,13 @@
                 <input type="checkbox" />
               </div>
               <div class="col-xs-8">
-                <h3 data-new-release="${new_release}">${products[product].productName}</h3>
+                <h3 data-new-release="${new_release}" data-category="${products[product].productType.toLowerCase()}">${products[product].productName}</h3>
                 <div>
                   Price: <strong>$${products[product].productPrice.toFixed(2)}</strong>
                 </div>
               </div>
               <div class="col-xs-3">
-                <input type="number" min="1" name="${products[product].productId}" placeholder="Enter quantity" required disabled>
+                <input type="number" min="1" max="100" name="${products[product].productId}" placeholder="Enter quantity" required disabled>
               </div>
             </div>
           </div>
@@ -139,12 +156,81 @@
 
           if (event.target.checked === true) {
             input_number.disabled = false;
+            input_number.value = 1;
           } else {
             input_number.disabled = true;
             input_number.value = null;
           }
         }
       } );
+    }
+
+    function quote() {
+      // Exit early if we're not in the quote page
+      if ( $.querySelector(".quote") === null ) {
+        return false;
+      }
+
+      let query_vars = get_query_vars();
+      let products_html = [];
+      let products_list = $.querySelector(".products");
+      let total = 0;
+      
+      map_products_to_id();
+
+      for ( let product_id in query_vars ) {
+        let product_total = 0;
+
+        if ( typeof mapped_products[product_id] !== "object" ) {
+          // Exit early and show error message.
+          break;
+        }
+        else {
+          product_total = mapped_products[product_id].productPrice * query_vars[product_id];
+          total += product_total;
+         
+          let new_release = false;
+
+          if ( mapped_products[product_id].newRelease == true ) {
+            new_release = true;
+          }
+
+
+          products_html.push(`
+            <div class="col-xs-12 product">
+              <div class="row">
+                <div class="col-xs-8">
+                  <h3 data-new-release="${new_release}" data-category="${mapped_products[product_id].productType.toLowerCase()}">${mapped_products[product_id].productName}</h3>
+                  <div>
+                    Price: <strong>$${mapped_products[product_id].productPrice.toFixed(2)}</strong>
+                  </div>
+                </div>
+                <div class="col-xs-2">${query_vars[product_id]}</div>
+                <div class="col-xs-2">$${product_total.toFixed(2)}</div>
+              </div>
+            </div>
+          `);
+        }
+      }
+
+      products_list.innerHTML += products_html.join("");
+
+      // Create totals
+      products_list.innerHTML += `
+        <div class="col-xs-12">
+          <div class="row">
+            <div class="col-xs-8"></div>
+            <div class="col-xs-2">Total</div>
+            <div class="col-xs-2"><strong>$${total.toFixed(2)}</strong></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function map_products_to_id() {
+      for ( let product of products ) {
+        mapped_products[product.productId] = product;
+      }
     }
   } );
 })(document);
