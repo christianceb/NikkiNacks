@@ -1,0 +1,96 @@
+{
+	"products":[
+	{
+		"productId": "001",
+		"productName": "Oblivion",
+		"productType": "Movie",
+		"newRelease": true,
+		"productPrice": 6.50
+	},
+	{
+		"productId": "002",
+		"productName": "Iron Man 3",
+		"productType": "Movie",
+		"newRelease": true,
+		"productPrice": 6.50
+	},
+	{
+		"productId": "003",
+		"productName": "Monty Python's Meaning of Life",
+		"productType": "Movie",
+		"newRelease": false,
+		"productPrice": 2.00
+	},
+	{
+		"productId": "004",
+		"productName": "Star Trek into Darkness",
+		"productType": "Movie",
+		"newRelease": true,
+		"productPrice": 6.50
+	},
+	{
+		"productId": "005",
+		"productName": "iRobot",
+		"productType": "Movie",
+		"newRelease": false,
+		"productPrice": 3.50
+	},
+	{
+		"productId": "006",
+		"productName": "Can't Hold Us (Macklemore)",
+		"productType": "Song",
+		"newRelease": true,
+		"productPrice": 3.50
+	},
+	{
+		"productId": "007",
+		"productName": "Mirrors (Justin Timberlake)",
+		"productType": "Song",
+		"newRelease": true,
+		"productPrice": 3.50
+	},
+	{
+		"productId": "008",
+		"productName": "Can't touch this (MC Hammer)",
+		"productType": "Song",
+		"newRelease": false,
+		"productPrice": 1.50
+	},
+	{
+		"productId": "009",
+		"productName": "Spirit Got Lost (Mental as Anything)",
+		"productType": "Song",
+		"newRelease": false,
+		"productPrice": 0.99
+	},
+	{
+		"productId": "010",
+		"productName": "Only Happy when it Rains (Garbage)",
+		"productType": "Song",
+		"newRelease": false,
+		"productPrice": 0.99
+	},
+	{
+		"productId": "011",
+		"productName": "Bangarang (Skrillex)",
+		"productType": "Song",
+		"newRelease": true,
+		"productPrice": 2.50
+	},
+	{
+		"productId": "012",
+		"productName": "Splinter (Savant)",
+		"productType": "Song",
+		"newRelease": true,
+		"productPrice": 3.00
+	},
+	{
+		"productId": "001",
+		"productName": "Oblivion",
+		"productType": "Song",
+		"newRelease": false,
+		"productPrice": 6.50
+	}
+
+	]
+}

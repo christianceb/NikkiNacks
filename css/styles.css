@@ -1,0 +1,82 @@
+.header {
+  display: flex;
+}
+.header-right {
+  position: relative;;
+}
+h1 {
+  margin: 0;
+}
+h1 img {
+  vertical-align: bottom;
+}
+h2 {
+  margin-top: 0;
+}
+nav {
+  position: absolute;
+  bottom: 0;
+}
+nav a, nav a:hover {
+  padding: 1em;
+  color: #fff;
+  text-decoration: none;
+  display: inline-block;
+}
+nav ul, nav li {
+  padding: 0;
+}
+nav ul {
+  list-style-type: none;
+  margin: 0;
+}
+nav li {
+  display: inline-block;
+  position: relative;
+  background: #3c3c3c;
+}
+nav li:hover {
+  background: #666;
+}
+nav li > ul {
+  display: none;
+  position: absolute;
+  background: #3c3c3c;
+  z-index: 32767;
+}
+nav li:hover > ul {
+  display: block;
+}
+nav li ul li {
+  width: 100%;
+}
+
+.frontpage main * {
+  text-align: center;
+}
+.frontpage main a {
+  color: #fff;
+  background: #3c3c3c;
+  display: inline-block;
+  font-size: 5rem;
+  padding: 1em;
+}
+
+.products h3 {
+  margin: 0;
+}
+.products h3[data-new-release="true"]:after {
+  content: "New release!";
+  display: inline-block;
+  color: #fff;
+  padding: 0.5em;
+  font-size: 0.5em;
+  background: #f00;
+  margin: 1em;
+}
+
+.product {
+  border-bottom: 1px solid #000;
+  padding-bottom: 1em;
+  margin-bottom: 1em;
+}
