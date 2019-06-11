@@ -3,7 +3,7 @@
   // On document ready
   $.addEventListener( "DOMContentLoaded", function( event ) {
     let products = {};
-    let mapped_products = {}
+    let indexed_products = {}
     let query_vars
 
     initialize();
@@ -171,38 +171,37 @@
         return false;
       }
 
+      map_products_to_id();
+
       let query_vars = get_query_vars();
       let products_html = [];
       let products_list = $.querySelector(".products");
       let total = 0;
       
-      map_products_to_id();
-
       for ( let product_id in query_vars ) {
         let product_total = 0;
 
-        if ( typeof mapped_products[product_id] !== "object" ) {
+        if ( typeof indexed_products[product_id] !== "object" ) {
           // Exit early and show error message.
           break;
         }
         else {
-          product_total = mapped_products[product_id].productPrice * query_vars[product_id];
+          product_total = indexed_products[product_id].productPrice * query_vars[product_id];
           total += product_total;
          
           let new_release = false;
 
-          if ( mapped_products[product_id].newRelease == true ) {
+          if ( indexed_products[product_id].newRelease == true ) {
             new_release = true;
           }
-
 
           products_html.push(`
             <div class="col-xs-12 product">
               <div class="row">
                 <div class="col-xs-8">
-                  <h3 data-new-release="${new_release}" data-category="${mapped_products[product_id].productType.toLowerCase()}">${mapped_products[product_id].productName}</h3>
+                  <h3 data-new-release="${new_release}" data-category="${indexed_products[product_id].productType.toLowerCase()}">${indexed_products[product_id].productName}</h3>
                   <div>
-                    Price: <strong>$${mapped_products[product_id].productPrice.toFixed(2)}</strong>
+                    Price: <strong>$${indexed_products[product_id].productPrice.toFixed(2)}</strong>
                   </div>
                 </div>
                 <div class="col-xs-2">${query_vars[product_id]}</div>
@@ -225,11 +224,20 @@
           </div>
         </div>
       `;
+
+      initialize_quote_listeners();
     }
 
+    function initialize_quote_listeners() {
+      // Print quote
+      $.getElementById("print_quote").addEventListener( "click", function( event ) {
+        print();
+      });
+    }
+    
     function map_products_to_id() {
       for ( let product of products ) {
-        mapped_products[product.productId] = product;
+        indexed_products[product.productId] = product;
       }
     }
   } );
